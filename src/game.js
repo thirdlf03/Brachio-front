@@ -92,7 +92,7 @@ let b = setInterval(() => {
       showimage();
     }
   } else if (10 < strain && strain < 600 && flag == true) {
-    if (green == false) {
+    if (green == true) {
       flag = false;
       console.log("colelct");
       collect();
