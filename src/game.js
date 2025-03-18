@@ -8,6 +8,8 @@ let gameflag = false;
 let green = false;
 let collect_num = 0;
 
+const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));//timeはミリ秒
+
 async function start() {
   await init();  // WASMを確実に初期化する
   console.log("WASM initialized!");
@@ -88,14 +90,18 @@ let b = setInterval(() => {
   let strain = document.querySelector('#rc-st').value;
   if (strain > 3200 && flag === true) {
     if (green == true) {
+      console.log("collect");
       collect();
     } else {
+      console.log("mistatke");
       mistake();
     }
   } else if (10 < strain && strain < 600 && flag == true) {
     if (green == false) {
+      console.log("colelct");
       collect();
     } else {
+      console.log("mistake");
       mistake();
     }
   }
@@ -105,18 +111,20 @@ function showimage() {
   document.getElementById("output").setAttribute("src", lists[count]);
 }
 
-function collect() {
-  setTimeout(() => showimage(), 1000);
-
+async function collect() {
+  showimage();
+  await sleep(2);
   count += 1;
   collect_num += 1;
   flag = false;
   document.getElementById("baseimg").setAttribute("src", lists[count]);
   setimage();
+  console.log("collect num ", collect_num);
 }
 
-function mistake() {
-  setTimeout(() => showimage(), 1000);
+async function mistake() {
+  showimage()
+  await sleep(2);
   count += 1;
   flag = false;
   document.getElementById("baseimg").setAttribute("src", lists[count]);
