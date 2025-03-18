@@ -93,17 +93,21 @@ let b = setInterval(() => {
     if (green == true) {
       console.log("collect");
       collect();
+      showimage();
     } else {
       console.log("mistatke");
       mistake();
+      showimage();
     }
   } else if (10 < strain && strain < 600 && flag == true) {
     if (green == false) {
       console.log("colelct");
       collect();
+      showimage();
     } else {
       console.log("mistake");
       mistake();
+      showimage();
     }
   }
 }, 100)
@@ -113,7 +117,6 @@ function showimage() {
 }
 
 async function collect() {
-  showimage();
   await sleep(5);
   count += 1;
   collect_num += 1;
@@ -125,7 +128,6 @@ async function collect() {
 }
 
 async function mistake() {
-  showimage()
   await sleep(5);
   count += 1;
   flag = false;
