@@ -67,44 +67,38 @@ function setimage() {
   };
 };
 
-let a = setInterval(() => {
-  if (flag == true || gameflag != true) {
-    return
-  } else {
-    alert()
-    flag = true
-  }
-}, 3500)
-
 let b = setInterval(() => {
   if (count >= 10) {
     document.getElementById("output").remove();
     const app = document.getElementById("app");
     app.innerHTML += `
     <h1>ゲーム終了</h1>
-    <p>${collect_num}問正解!!</p>
+    <p>${collect_num}問正解!! すごいね！</p>
     `
-    clearInterval(a);
     clearInterval(b);
     gameflag = false;
   }
   let strain = document.querySelector('#rc-st').value;
   if (strain > 3200 && flag === true) {
     if (green == true) {
+      flag = false;
       console.log("collect");
       collect();
       showimage();
-    } else {
+    } else if (green == false) {
+      flag = false;
       console.log("mistatke");
       mistake();
       showimage();
     }
   } else if (10 < strain && strain < 600 && flag == true) {
     if (green == false) {
+      flag = false;
       console.log("colelct");
       collect();
       showimage();
-    } else {
+    } else if (green == false) {
+      flag = false;
       console.log("mistake");
       mistake();
       showimage();
@@ -120,11 +114,10 @@ async function collect() {
   await sleep(2000);
   count += 1;
   collect_num += 1;
-  flag = false;
   document.getElementById("baseimg").setAttribute("src", lists[count]);
   setimage();
-  console.log("collect num ", collect_num);
-  9
+  alert();
+  flag = true;
 }
 
 async function mistake() {
@@ -133,4 +126,6 @@ async function mistake() {
   flag = false;
   document.getElementById("baseimg").setAttribute("src", lists[count]);
   setimage()
+  alert();
+  flag = true;
 }
