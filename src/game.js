@@ -8,10 +8,10 @@ let gameflag = false;
 let green = false;
 let collect_num = 0;
 
-const sleep = (time) => new Promise((resolve) => setTimeout(resolve, time));//timeはミリ秒
+const sleep = (time) => new Promise((r) => setTimeout(r, time));
 
 async function start() {
-  await init();  // WASMを確実に初期化する
+  await init();
   console.log("WASM initialized!");
 }
 
@@ -78,10 +78,11 @@ let a = setInterval(() => {
 
 let b = setInterval(() => {
   if (count >= 10) {
-    document.getElementById("img").remove();
+    document.getElementById("output").remove();
     const app = document.getElementById("app");
     app.innerHTML += `
     <h1>ゲーム終了</h1>
+    <p>${collect_num}問正解!!</p>
     `
     clearInterval(a);
     clearInterval(b);
@@ -113,18 +114,19 @@ function showimage() {
 
 async function collect() {
   showimage();
-  await sleep(2);
+  await sleep(5);
   count += 1;
   collect_num += 1;
   flag = false;
   document.getElementById("baseimg").setAttribute("src", lists[count]);
   setimage();
   console.log("collect num ", collect_num);
+  9
 }
 
-async function mistake() {
+function mistake() {
   showimage()
-  await sleep(2);
+  await sleep(5);
   count += 1;
   flag = false;
   document.getElementById("baseimg").setAttribute("src", lists[count]);
