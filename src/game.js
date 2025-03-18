@@ -124,7 +124,7 @@ async function collect() {
   9
 }
 
-function mistake() {
+async function mistake() {
   showimage()
   await sleep(5);
   count += 1;
