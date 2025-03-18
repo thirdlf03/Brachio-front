@@ -5,6 +5,8 @@ let count = 0;
 let lists = [];
 let flag = true;
 let gameflag = false;
+let green = false;
+let collect_num = 0;
 
 async function start() {
   await init();  // WASMを確実に初期化する
@@ -27,7 +29,7 @@ changebutton.addEventListener("click", async () => {
     <script>
     </script>
   `
-  cvbase64();
+  setimage();
 });
 
 function alert() {
@@ -44,7 +46,7 @@ function alert() {
   setTimeout(() => removeMsg(), 1000);
 }
 
-function cvbase64() {
+function setimage() {
   const img = document.getElementById("baseimg");
   img.onload = function () {
     var canvas = document.createElement("canvas");
@@ -57,9 +59,9 @@ function cvbase64() {
     const base64 = dataURL.match(/base64,(.*)/)?.[1];
 
     const tmp = convgray(base64);
+    green = is_green(base64);
     const output_image = "data:image/png;base64," + tmp;
     document.getElementById("output").setAttribute("src", output_image);
-    console.log(output_image);
   };
 };
 
@@ -85,14 +87,38 @@ let b = setInterval(() => {
   }
   let strain = document.querySelector('#rc-st').value;
   if (strain > 3200 && flag === true) {
-    count += 1
-    flag = false;
-    document.getElementById("img").setAttribute("src", lists[count]);
-    console.log("Push!");
+    if (green == true) {
+      collect();
+    } else {
+      mistake();
+    }
   } else if (10 < strain && strain < 600 && flag == true) {
-    count += 1
-    flag = false;
-    document.getElementById("img").setAttribute("src", lists[count]);
-    console.log("Pull!");
+    if (green == false) {
+      collect();
+    } else {
+      mistake();
+    }
   }
 }, 100)
+
+function showimage() {
+  document.getElementById("output").setAttribute("src", lists[count]);
+}
+
+function collect() {
+  setTimeout(() => showimage(), 1000);
+
+  count += 1;
+  collect_num += 1;
+  flag = false;
+  document.getElementById("baseimg").setAttribute("src", lists[count]);
+  setimage();
+}
+
+function mistake() {
+  setTimeout(() => showimage(), 1000);
+  count += 1;
+  flag = false;
+  document.getElementById("baseimg").setAttribute("src", lists[count]);
+  setimage()
+}
