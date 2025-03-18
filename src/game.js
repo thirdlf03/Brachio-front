@@ -117,7 +117,7 @@ function showimage() {
 }
 
 async function collect() {
-  await sleep(5);
+  await sleep(2000);
   count += 1;
   collect_num += 1;
   flag = false;
@@ -128,7 +128,7 @@ async function collect() {
 }
 
 async function mistake() {
-  await sleep(5);
+  await sleep(2000);
   count += 1;
   flag = false;
   document.getElementById("baseimg").setAttribute("src", lists[count]);
