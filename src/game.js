@@ -19,7 +19,7 @@ async function start() {
 start();
 
 changebutton.addEventListener("click", async () => {
-  lists = await axios.get("https://test.naokimiura15.workers.dev/").then(response => {
+  lists = await axios.get("https://get-image.naokimiura15.workers.dev/").then(response => {
     return response.data
   });
 
