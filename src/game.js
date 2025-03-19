@@ -75,6 +75,12 @@ setInterval(() => {
     app.innerHTML += `
     <h1>ゲーム終了</h1>
     <p>${collect_num}問正解!! すごいね！</p>
+    <button onclick="window.location.reload();">リスタート</button>
+    <style>
+      p {
+        font-size: 50px;
+      }
+    </style>
     `
     gameflag = false;
   }
