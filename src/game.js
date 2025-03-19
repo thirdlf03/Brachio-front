@@ -1,5 +1,6 @@
 import axios from 'axios';
 import init, { convgray, is_green } from './image_process.js';
+import { connectedJoyCons } from 'joy-con-webhid';
 const changebutton = document.getElementById("change");
 let count = 0;
 let lists = [];
@@ -25,7 +26,7 @@ changebutton.addEventListener("click", async () => {
   gameflag = true;
   const app = document.getElementById("app");
   app.innerHTML = `
-    <span>横がみどりになればok→</span><meter id="rc-st" min="0" max="5000"></meter>
+    <meter id="rc-st" min="0" max="5000"></meter>
     <img id="baseimg" crossorigin="annonymous" src=${lists[count]} hidden></img>
     <img style="height: 600px; width: 600px" id="output" src=""></img>
     <script>
@@ -67,7 +68,7 @@ function setimage() {
   };
 };
 
-let b = setInterval(() => {
+setInterval(() => {
   if (count >= 10) {
     document.getElementById("output").remove();
     const app = document.getElementById("app");
@@ -75,31 +76,31 @@ let b = setInterval(() => {
     <h1>ゲーム終了</h1>
     <p>${collect_num}問正解!! すごいね！</p>
     `
-    clearInterval(b);
     gameflag = false;
   }
   let strain = document.querySelector('#rc-st').value;
   if (strain > 3200 && flag === true) {
     if (green == true) {
       flag = false;
-      console.log("collect");
+      console.log("collect push (Green)");
+      vible();
       collect();
       showimage();
     } else if (green == false) {
       flag = false;
-      console.log("mistatke");
+      console.log("mistake push (Not Green) ");
       mistake();
       showimage();
     }
   } else if (10 < strain && strain < 600 && flag == true) {
-    if (green == true) {
+    if (green == false) {
       flag = false;
-      console.log("colelct");
+      vible();
       collect();
       showimage();
-    } else if (green == false) {
+    } else if (green == true) {
       flag = false;
-      console.log("mistake");
+      console.log("mistake pull (Green)");
       mistake();
       showimage();
     }
@@ -109,6 +110,13 @@ let b = setInterval(() => {
 function showimage() {
   document.getElementById("output").setAttribute("src", lists[count]);
 }
+
+async function vible() {
+  for (const joyCon of connectedJoyCons.values()) {
+    console.log(joyCon);
+    await joyCon.rumble(600, 600, 0.5);
+  }
+};
 
 async function collect() {
   await sleep(2000);

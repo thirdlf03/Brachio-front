@@ -29,11 +29,11 @@ const visualize = (joyCon, packet) => {
 
 setInterval(async () => {
   for (const joyCon of connectedJoyCons.values()) {
+    await joyCon.enableVibration();
     if (joyCon.eventListenerAttached) {
       continue;
     }
     joyCon.eventListenerAttached = true;
-    await joyCon.enableVibration();
     joyCon.addEventListener('hidinput', (event) => {
       visualize(joyCon, event.detail);
     });
